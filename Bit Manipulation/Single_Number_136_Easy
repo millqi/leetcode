@@ -1,0 +1,23 @@
+public class Single_Number_136_Easy {
+    /*
+    Notice that a XOR a=0,0 XOR a=a.
+    a XOR b XOR a = a XOR a XOR b
+    So we just need to XOR each value of nums. The result is the value only appears once. 
+     */
+    public int singleNumber(int[] nums) {
+        int res=0;
+        for(int num:nums)
+        {
+            res^=num;
+        }
+        return res;
+    }
+    public int singleNumber(int[] nums) {
+        int res=0;
+        for(int num:nums)
+        {
+            res^=num;
+        }
+        return res;
+    }
+}
