@@ -1,0 +1,32 @@
+public class Single_Number_III_260_Medium {
+    /*
+    First pass,Use diff XOR each element to obtain the XOR of two special element
+    Second pass
+    If we use the example on leetcode , the diff is 2 Binary(10)
+    The XOR of two special element could separate the nums in two nums array.
+   
+    if the second position of num is 1,then calculate the XOR in res[1],if not,do it in res[0]
+    We could use a res[2] to store the result.
+    then the res[0] and res[1] is the answer.
+     */
+    public int[] singleNumber(int[] nums) {
+        int diff=0;
+        for(int num:nums)
+        {
+            diff ^= num;
+        }
+        diff &= -diff;
+        int res[]=new int[]{0,0};
+
+        for(int num:nums)
+        {
+            if((diff&num)==0)//Is 0 where the right of diff is 1
+            {
+                res[0]^=num;
+            }
+            else //Is 1 where the right of diff is 1
+            res[1]^=num;
+        }
+        return res;
+    }
+}
