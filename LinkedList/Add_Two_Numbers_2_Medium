@@ -6,6 +6,10 @@ public class Add_Two_Numbers_2_Medium {
         ListNode(int val) { this.val = val; }
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
     }
+    /*
+    Using sum to record the sum.The value of current node is sum%10,and we should sum/10 at the beginning of each recursion.
+    Notice that if sum >=10 in the final recursion,we should create a new node to store the extra value.
+     */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode res=new ListNode(0);
         ListNode cur=res;
