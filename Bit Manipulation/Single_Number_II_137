@@ -1,0 +1,43 @@
+public class Single_Number_II_137 {
+    /*
+
+    A 32bit int num could be treated as 32 seperated bit.We could calculate each bit independently.
+    When a num appear less than twice,we could use 1bit to record it.(1 means appear once,0 means appear twice)
+    When a num appear 3 times,we need to use 2bit to record it. Binary 11 means 3 times.
+    00 - a num never appear
+    01 - a num appear once
+    10 - a num appear twice
+    11 - a num appear 3times (We could reset it to 00 to announce that it has reached the limit,which is not the num we need to find)
+    So it should count like this 00 - 01 - 10 -00
+    We could introduce the full adder.
+    low    high    input    low_output    high_output
+    0      0       0        0             0
+    1      0       0        1             0
+    1      0       1        0             1
+    0      1       0        0             1
+    0      1       1        0             0
+    0      0       1        1             0
+    We could summarise that
+    low = low*(~high)*(~input)+(~low)*(~high)*input=(~high)*(low XOR input)
+    high=high*(~low)*(~input)+(~high)*low*input
+
+    We could use low_output as input when we calculate high_output
+    low    high    input    new input    high_output
+    0      0       0        0             0
+    1      0       0        1             0
+    1      0       1        0             1
+    0      1       0        0             1
+    0      1       1        0             0
+    0      0       1        1             0
+    So high=~low*(high XOR input)
+     */
+    public int singleNumber(int[] nums) {
+        int low=0,high=0;
+        for(int num:nums)
+        {
+            low=~high&(low^num);
+            high=~low&(high^num);
+        }
+        return low;
+    }
+}
