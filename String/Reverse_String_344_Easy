@@ -1,0 +1,13 @@
+public class Reverse_String_344_Easy {
+    public void reverseString(char[] s) {
+        int frt=0,end=s.length-1;
+        char c;
+        while(frt<end)
+        {
+            c=s[frt];
+            s[frt]=s[end];
+            s[end]=c;
+            ++frt;--end;
+        }
+    }
+}
