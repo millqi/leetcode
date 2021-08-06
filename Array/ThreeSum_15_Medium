@@ -1,0 +1,29 @@
+public class ThreeSum_15_Medium {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result=new LinkedList<>();
+        Arrays.sort(nums);
+        //Sort the array for skipping the same result and the three pointer solution
+        for(int i=0;i<nums.length-2;i++){
+            //i<nums.length-2 because frt and end must be bigger than i
+            if(i==0||nums[i]!=nums[i-1])
+            //Skip when the i is equal to the previous one except for the first one
+            {
+                int frt=i+1;
+                int end= nums.length-1;
+                while (frt<end)
+                if(0==nums[frt]+nums[end]+nums[i])
+                {
+                    result.add(Arrays.asList(nums[frt],nums[end],nums[i]));
+                    while(frt<end&&nums[frt]==nums[frt+1]) frt++;
+                    while(frt<end&&nums[end]==nums[end-1]) end--;
+                    //Compare the frt to end at first
+                    frt++;end--;
+                }
+                else if(0>nums[frt]+nums[end]+nums[i])
+                    frt++;
+                else  end--;
+            }
+        }
+        return result;
+    }
+}
