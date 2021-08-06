@@ -1,0 +1,15 @@
+public class Missing_Number_268_Easy {
+    public int missingNumber(int[] nums) {
+        int n=nums.length;
+        int res=0;
+        res-=nums[0];
+        for(int i=1;i<n;++i)
+        {
+            res-=nums[i];
+            res+=i;
+        }
+        res+=n;
+
+        return res;
+    }
+}
