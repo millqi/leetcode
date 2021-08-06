@@ -1,0 +1,46 @@
+/*
+Runtime: 3 ms, faster than 98.75% of Java online submissions for 3Sum Closest.
+Memory Usage: 38.4 MB, less than 92.18% of Java online submissions for 3Sum Closest.
+ */
+
+public class Three_Sum_Closest_16_Medium {
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int min=Integer.MAX_VALUE;//To store the current most min gap between current sum and target
+        int res=Integer.MAX_VALUE;//To store the current sum
+        for(int i=0;i<nums.length-2;++i)
+        {
+            if(i==0||nums[i]!=nums[i-1])
+            {
+                int frt=i+1;
+                int end=nums.length-1;
+                while(frt<end)
+                {
+                    int cur=nums[i]+nums[frt]+nums[end];
+                    if(cur>target)
+                    {
+                        if(min>Math.abs(cur-target))//If the gap is smaller,replace it
+                        {
+                            min=Math.abs(cur-target);
+                            res=cur;
+                        }
+                        while(frt<end&&nums[end]==nums[end-1]) --end;//Skip the same nums[end]
+                        --end;
+                    }
+                    else if(cur<target)
+                    {
+                        if(min>Math.abs(cur-target))//If the gap is smaller,replace it
+                        {
+                            min=Math.abs(cur-target);
+                            res=cur;
+                        }
+                        while(frt<end&&nums[frt]==nums[frt+1]) ++frt;//Skip the same nums[frt]
+                        ++frt;
+                    }
+                    else return target;
+                }
+            }
+        }
+        return res;
+    }
+}
