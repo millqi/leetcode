@@ -1,0 +1,27 @@
+public class Generate_Parentheses_22_Medium {
+    public List<String> generateParenthesis(int n) {
+        List<String > res=new ArrayList<>();
+        generateParenthesis(n,0,0,res,new StringBuilder());
+        return res;
+    }
+    public void generateParenthesis(int n,int left,int right,List<String> res,StringBuilder s) {
+
+        if(s.length()==n*2)
+        {
+            res.add(s.toString());
+            return;
+        }
+        if(left<n)
+        {
+            generateParenthesis(n,1+left,right,res,s.append("("));
+            s.deleteCharAt(s.length()-1);
+            //Remove the ( for the next operation
+            //like ((  delete one ( for ()
+        }
+
+        if(right<left) {
+            generateParenthesis(n, left, 1 + right, res, s.append(")"));
+            s.deleteCharAt(s.length()-1);
+        }
+    }
+}
