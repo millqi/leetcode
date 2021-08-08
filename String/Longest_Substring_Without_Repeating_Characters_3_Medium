@@ -1,5 +1,5 @@
 public class Longest_Substring_Without_Repeating_Characters_3_Medium {
-    public int lengthOfLongestSubstring(String s) {
+    public int lengthOfLongestSubstring2(String s) {
         if(s.length()==0) return 0;
         HashMap<Character,Integer> map=new HashMap<Character,Integer>();
         int max=0;
@@ -20,5 +20,26 @@ public class Longest_Substring_Without_Repeating_Characters_3_Medium {
             max=Math.max(max,end-frt+1);
         }
         return max;
+    }
+    public int lengthOfLongestSubstring(String s) {
+        int frt=0,end=0,minLen=0,counter=0;
+        int map[]=new int[128];
+        
+        while(end<s.length())
+        {
+            final char c1=s.charAt(end);
+            if(map[c1]>0) counter++;
+            map[c1]++;
+            end++;
+            while(counter>0)
+            {
+                final char c2=s.charAt(frt);
+                if(map[c2]>1) counter--;
+                map[c2]--;
+                frt++;
+            }
+            minLen=Math.max(minLen,end-frt);
+        }
+        return minLen;
     }
 }
