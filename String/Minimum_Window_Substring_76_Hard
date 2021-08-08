@@ -1,0 +1,38 @@
+public class Minimum_Window_Substring_76_Hard {
+    public String minWindow(String s, String t) {
+        int map[]=new int[128];
+        for(char c:t.toCharArray())
+            ++map[c];
+        int counter=t.length(),frt=0,end=0,res=Integer.MAX_VALUE,minStart=0;
+        while(end<s.length())
+        {
+            /*
+            Find the valid subString
+             */
+            char c1=s.charAt(end);
+            if(map[c1]>0) --counter;
+            --map[c1];
+            ++end;
+            /*
+            Found
+             */
+            while(counter==0)
+            {
+                /*
+                when minLength is bigger,change it
+                 */
+                if(res>end-frt)
+                {
+                    res=end-frt;
+                    minStart=frt;//Moving the subString front
+                }
+                char c2=s.charAt(frt);
+                ++map[c2];
+                if(map[c2]>0) ++counter;//Break the loop when the subString doesn't have the necessary characters
+                ++frt;
+            }
+
+        }
+        return res==Integer.MAX_VALUE?"":s.substring(minStart,res+minStart);
+    }
+}
