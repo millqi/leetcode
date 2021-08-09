@@ -1,0 +1,96 @@
+package com.millki;
+
+import java.util.Arrays;
+
+/*
+for example, we have meetings that span along time as follows:
+
+|_____|
+      |______|
+|________|
+        |_______|
+
+
+||    ||
+     |   |   |  |
+1.Divide the matrix into two arrays Meeting start[] Meeting end[]
+2.We can sort the arrays like the timeline we see on the top.
+3.A meeting has to start before it ends XD.
+4.We will apply a new room for meeting if a meeting starts before the endPointer,which happens when
+we don't have extra room for the current meeting,so we need to increment rooms.
+If a meeting starts after the endPointer,we will move the endPointer to the next one,which means
+an extra room has been used by this meeting
+
+Besides,we can treat the problem in another way.
+We apply a room for every meeting by default(increment rooms every time in the loop),then if we start a meeting
+after endPointer which means  meeting(s) are over,we decrease the rooms and move the endPointer because an old room is taken again.
+ */
+public class Meeting_Rooms_II_253 {
+    public int minMeetingRooms(int[][] intervals) {
+        int n=intervals.length;
+        int start[]=new int[n];
+        int end[]=new int[n];
+        for(int i=0;i<n;++i)
+        {
+            start[i]=intervals[i][0];
+            end[i]=intervals[i][1];
+        }
+        Arrays.sort(start);
+        Arrays.sort(end);
+        int endPointer=0,rooms=0;
+        for(int i=0;i<n;++i)
+        {
+            if(start[i]>end[i])
+                ++rooms;
+            else
+                ++endPointer;
+            /*
+            Clearer version
+            ++rooms;//Apply a new room to every meeting by default
+            if(start[i]>=end[endPointer])//if there is/are room idle
+            {
+                --rooms;//discard the new room in this loop
+                ++endPointer;//Moving the Pointer because a meeting is holding in this room
+            }*/
+        }
+        return rooms;
+    }
+    /*
+    public int minMeetingRooms(Interval[] intervals) {
+    if (intervals == null || intervals.length == 0)
+        return 0;
+
+    // Sort the intervals by start time
+    Arrays.sort(intervals, new Comparator<Interval>() {
+        public int compare(Interval a, Interval b) { return a.start - b.start; }
+    });
+
+    // Use a min heap to track the minimum end time of merged intervals
+    PriorityQueue<Interval> heap = new PriorityQueue<Interval>(intervals.length, new Comparator<Interval>() {
+        public int compare(Interval a, Interval b) { return a.end - b.end; }
+    });
+
+    // start with the first meeting, put it to a meeting room
+    heap.offer(intervals[0]);
+
+    for (int i = 1; i < intervals.length; i++) {
+        // get the meeting room that finishes earliest
+        Interval interval = heap.poll();
+
+        if (intervals[i].start >= interval.end) {
+            // if the current meeting starts right after
+            // there's no need for a new room, merge the interval
+            interval.end = intervals[i].end;
+        } else {
+            // otherwise, this meeting needs a new room
+            heap.offer(intervals[i]);
+        }
+
+        // don't forget to put the meeting room back
+        heap.offer(interval);
+    }
+
+    return heap.size();
+}
+     */
+}
