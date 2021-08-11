@@ -1,0 +1,47 @@
+public class Intersection_of_Two_Arrays_349_Easy {
+    /*
+    Hash Table
+     */
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Set<Integer> set = new HashSet<>();
+        Set<Integer> intersect = new HashSet<>();
+        for (int i = 0; i < nums1.length; i++) {
+            set.add(nums1[i]);
+        }
+        for (int i = 0; i < nums2.length; i++) {
+            if (set.contains(nums2[i])) {
+                intersect.add(nums2[i]);
+            }
+        }
+        int[] result = new int[intersect.size()];
+        int i = 0;
+        for (Integer num : intersect) {
+            result[i++] = num;
+        }
+        return result;
+    }
+    /*
+
+    public int[] intersection(int[] nums1, int[] nums2) {
+        List<Integer> res=new ArrayList<Integer>();
+        final int n=nums1.length;
+        final int m=nums2.length;
+        int count1[][]=new int[1001][1];
+        int count2[][]=new int[1001][1];
+        for(int i=0;i<n;++i) ++count1[nums1[i]][0];
+        for(int i=0;i<m;++i) ++count2[nums2[i]][0];
+        for(int i=0;i<1001;++i)
+        {
+            if(count1[i][0]>0&&count2[i][0]>0)
+                if(!res.contains(i))
+                    res.add(i);
+        }
+        int[] res1=new int[res.size()];
+        for(int i=0;i<res.size();++i)
+        {
+            res1[i]=res.get(i);
+        }
+        return res1;
+    }
+     */
+}
