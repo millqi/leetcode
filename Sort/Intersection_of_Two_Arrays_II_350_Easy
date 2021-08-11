@@ -1,0 +1,72 @@
+public class Intersection_of_Two_Arrays_II_350_Easy {
+    /*
+
+     */
+    public int[] intersect(int[] nums1, int[] nums2) {
+        // swap so we work on the shorter array
+        if (nums1.length > nums2.length) {
+            int[] temp = nums1;
+            nums1 = nums2;
+            nums2 = temp;
+        }
+
+        HashMap<Integer, Integer> nums1Counts = new HashMap<>();
+        for (int i : nums1) {
+            int numsCount = nums1Counts.getOrDefault(i, 0);
+            nums1Counts.put(i, numsCount + 1);
+        }
+
+        int[] result = new int[nums1.length];
+        int index = 0;
+        for (int i : nums2) {
+            int numsCount = nums1Counts.getOrDefault(i, 0);
+            if (numsCount > 0) {
+                nums1Counts.put(i, numsCount - 1);
+                result[index++] = i;
+            }
+        }
+
+        return Arrays.copyOf(result, index);
+    }
+    /*
+    It is possible not to use  Arraylist
+     */
+    /*
+    public int[] intersect(int[] nums1, int[] nums2) {
+        Map<Integer,Integer> map1=new HashMap<>();
+        Map<Integer,Integer> map2=new HashMap<>();
+        for(int i:nums1)
+        {
+            if (!map1.containsKey(i))
+            {
+                map1.put(i,1);
+            }
+            else map1.put(i,map1.get(i)+1);
+        }
+        for(int i:nums2)
+        {
+            if (!map2.containsKey(i))
+            {
+                map2.put(i,1);
+            }
+            else map2.put(i,map2.get(i)+1);
+        }
+        ArrayList<Integer> res=new ArrayList<>();
+        for(Integer key:map1.keySet())
+        {
+            if(!map2.containsKey(key))
+                continue;
+            int min=Math.min(map1.get(key),map2.get(key));
+            for(int i=0;i<min;++i)
+                res.add(key);
+        }
+        int res1[]=new int[res.size()];
+        for(int i=0;i<res.size();++i)
+        {
+            res1[i]=res.get(i);
+        }
+        return res1;
+    }
+
+     */
+}
