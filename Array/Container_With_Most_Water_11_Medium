@@ -1,0 +1,14 @@
+public class Container_With_Most_Water_11_Medium {
+    public int maxArea(int[] height) {
+        int frt=0,end=height.length-1,max=0;
+        max=(end-frt)*Math.min(height[frt],height[end]);
+        while(frt<end)
+        {
+            if(height[frt]>height[end])
+                end--;
+            else frt++;
+            max=Math.max(max,(end-frt)*Math.min(height[frt],height[end]));
+        }
+        return max;
+    }
+}
