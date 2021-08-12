@@ -1,0 +1,75 @@
+public class Word_Break_139_Medium {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        HashSet set=new HashSet(wordDict);
+        int n=s.length();
+        boolean dp[]=new boolean[n+1];
+        dp[0]=true;
+        for(int i=1;i<=n;++i)
+        {
+            for(int j=0;j<i;++j)
+            {
+                if(dp[j]&&set.contains(s.substring(j,i)))
+                {
+                    dp[i]=true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+    }
+    /*public boolean wordBreak(String s, List<String> wordDict) {
+        int len = s.length();
+
+        boolean[] breakable = new boolean[len + 1];
+        breakable[0] = true;
+
+        for (int i = 1; i <= len; i++) {
+            for (String word : wordDict) {
+                int left = i - word.length();
+                if (left >= 0 && breakable[left]) {
+                    if (s.substring(left, i).equals(word)) {
+                        breakable[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return breakable[len];
+    }*/
+    /*
+    TLE
+    public boolean wordBreak(String s, List<String> wordDict) {
+        return backTrack(s,wordDict,0);
+    }
+    private boolean backTrack(String s,List<String> wordDict,int index)
+    {
+        if(index>s.length()) return false;
+        else if(index==s.length()) return true;
+        else {
+            boolean res=false;
+            for(int i=0;i<wordDict.size();++i)
+            {
+                String temp=wordDict.get(i);
+                if(index+temp.length()<=s.length()&&compare(s.substring(index,index+temp.length()),temp)) {
+                    res=backTrack(s, wordDict, index + temp.length());
+                    if(res==true) break;
+                }
+            }
+            return res;
+        }
+
+    }
+    private boolean compare(String s1,String s2)
+    {
+        if(s1.length()!=s2.length()) return false;
+        else {
+            for(int i=0;i<s1.length();++i)
+            {
+                if (s1.charAt(i)!=s2.charAt(i))
+                    return false;
+            }
+            return true;
+        }
+    }*/
+}
