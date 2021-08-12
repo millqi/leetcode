@@ -1,0 +1,17 @@
+public class Subsets_78_Medium {
+    List<List<Integer>> res=new ArrayList<>();
+    public List<List<Integer>> subsets(int[] nums) {
+        backTrack(nums,0,new ArrayList<>());
+        return res;
+    }
+    public void backTrack(int[] nums,int start,List<Integer> temp)
+    {
+        res.add(new ArrayList<>(temp));
+        for(int i=start;i<nums.length;++i)
+        {
+            temp.add(nums[i]);
+            backTrack(nums,i+1,temp);
+            temp.remove(temp.size()-1);
+        }
+    }
+}
