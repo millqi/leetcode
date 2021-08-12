@@ -1,0 +1,30 @@
+public class BackTrackTemplate {
+    List<List<Integer>> res=new ArrayList<>();
+    public List<List<Integer>> questions(int[] nums) {
+        backTrack(nums,0,new ArrayList<>());
+        return res;
+    }
+    public void backTrack(int[] nums,int start,List<Integer> temp)
+    {
+        if(/*The condition that return the result*/)
+            res.add(new ArrayList<>(temp));
+        for(int i=start;i<nums.length;++i)//BackTrack
+        {
+            if(/*The condition that skip this loop */)
+            {
+                continue;
+            }
+            temp.add(nums[i]);//Add the new element to the temp
+            backTrack(nums,i+1,temp);//Customise the pointer's movement(i,i+1...)
+            temp.remove(temp.size()-1);//Remove the new element from the temp
+        }
+    }
+}
+
+https://leetcode.com/problems/permutations/
+https://leetcode.com/problems/subsets-ii/
+https://leetcode.com/problems/subsets/
+https://leetcode.com/problems/permutations-ii/
+https://leetcode.com/problems/combination-sum/
+https://leetcode.com/problems/combination-sum-ii/
+https://leetcode.com/problems/palindrome-partitioning/
