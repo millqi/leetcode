@@ -1,0 +1,19 @@
+public class Diameter_of_Binary_Tree_542_Easy {
+    int max=0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        dfs(root);
+        return max;
+    }
+    private int dfs(TreeNode root)
+    {
+        int left=0;
+        int right=0;
+        if(root.left!=null)
+            left=dfs(root.left);
+        if(root.right!=null)
+            right=dfs(root.right);
+        max=Math.max(max,left+right);
+        return Math.max(left,right)+1;
+
+    }
+}
