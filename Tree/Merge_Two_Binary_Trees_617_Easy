@@ -1,0 +1,27 @@
+public class Merge_Two_Binary_Trees_617_Easy {
+    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+        if (root1 == null)//If root1.left is null,just use root2.left
+            return root2;
+        if (root2 == null)
+            return root1;
+        root1.val += root2.val;//merge root2 tree to root1
+        root1.left = mergeTrees(root1.left, root2.left);
+        root1.right = mergeTrees(root1.right, root2.right);
+        return root1;
+
+    }
+
+
+    /*
+    O(n) extra space
+     */
+    public TreeNode mergeTrees2(TreeNode root1, TreeNode root2) {
+        if(root1==null&&root2==null) return null;
+        TreeNode temp=new TreeNode();
+        temp.val=(root1==null?0:root1.val)+(root2==null?0: root2.val);
+
+        temp.left=mergeTrees(root1==null?null:root1.left,root2==null?null:root2.left);
+        temp.right=mergeTrees(root1==null?null:root1.right,root2==null?null:root2.right);
+        return temp;
+    }
+}
