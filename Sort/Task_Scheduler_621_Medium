@@ -1,0 +1,24 @@
+public class Task_Scheduler_621_Medium {
+    /*
+    Frame: "AXXXAXXXAXXXA"
+    insert 'B': "ABXXABXXABXXA" <--- 'B' has higher frequency than the other characters, insert it first.
+    insert 'E': "ABEXABEXABXXA"
+    insert 'F': "ABEFABEXABFXA" <--- each time try to fill the k-1 gaps as full or evenly as possible.
+    insert 'G': "ABEFABEGABFGA"
+
+    cache[25]-1  is for the last frame.The last frame might not be full,so it will calculate with (25-i) 25 minus the highest frequency chars which are the prefix of every frame
+    n+1 is the frame size AXXX =n+1=4
+     */
+    public int leastInterval(char[] tasks, int n) {
+        int cache[]=new int[26];
+        for(int i=0;i<tasks.length;++i)
+        {
+            ++cache[tasks[i]-'A'];
+        }
+        Arrays.sort(cache);
+        int i=25;
+        while(i>=0&&cache[i]==cache[25]) --i;
+
+        return Math.max(tasks.length,(cache[25]-1)*(n+1)+25-i);
+    }
+}
