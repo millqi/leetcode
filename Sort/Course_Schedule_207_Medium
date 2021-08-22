@@ -1,0 +1,87 @@
+public class Course_Schedule_207_Medium {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        List<LinkedList<Integer>> courses = new ArrayList<>();
+        for (int i=0; i<numCourses; i++) {
+            courses.add(new LinkedList<Integer>());//Create LinkedList for all courses
+        }
+
+        for(int j=0; j<prerequisites.length; j++) {
+            int a = prerequisites[j][0];//the course
+            int b = prerequisites[j][1];//the course have to learn
+            courses.get(a).add(b);//add the course to the necessary course list for a
+        }
+
+        boolean[] stack = new boolean[numCourses];
+        boolean[] marked = new boolean[numCourses];
+        for(int n=0; n<numCourses; n++) {
+            if (hasCycle(courses, marked, n, stack) ) {
+                return false;
+            }
+
+        }
+        return true;
+    }
+//0,1   1,2   1,3    4,2
+    //DFS
+    private boolean hasCycle(List<LinkedList<Integer>> courses, boolean[] learnt, int v, boolean[] stack) {
+        if (stack[v]) return true;
+        if (learnt[v]) return false;
+
+        learnt[v] = true;
+        stack[v] = true;
+        for(int next: courses.get(v)) {
+            if(hasCycle(courses, learnt, next, stack)) {
+                return true;
+            }
+        }
+        stack[v] = false;//Pop out the element out of stack to prevent when we in 4,2 it returns true
+        return false;
+    }
+
+
+
+
+    public boolean canFinish2(int numCourses, int[][] prerequisites) {
+        /*
+        BFS
+         matrix[pre][reachable]
+         use matrix to record the indegree for every node
+         */
+
+        int matrix[][]=new int [numCourses][numCourses];
+        int []indegree=new int[numCourses];
+
+        for(int i=0;i<prerequisites.length;++i)
+        {
+            int ready=prerequisites[i][0];
+            int pre=prerequisites[i][1];
+            if(matrix[pre][ready]==0)//Find the element which its indegree=0
+            {
+                indegree[ready]++;//duplicate case
+            }
+            matrix[pre][ready]=1;
+        }
+        int count=0;
+        Queue<Integer> queue=new LinkedList<>();
+        for(int i=0;i<indegree.length;++i)
+        {
+            if(indegree[i]==0) queue.offer(i);
+        }
+        while(!queue.isEmpty())
+        {
+            int course=queue.poll();
+            ++count;
+            for(int i=0;i<numCourses;++i)
+            {
+                if(matrix[course][i]!=0)
+                {
+                    --indegree[i];
+                    if(indegree[i]==0)//make the courses indegree==0
+                        queue.offer(i);//Add the course which indegree==0
+                }
+
+            }
+        }
+        return count==numCourses;//check all course are in the queue
+    }
+}
