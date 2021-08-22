@@ -1,0 +1,23 @@
+public class Invert_Binary_Tree_226_Easy {
+    public TreeNode invertTree(TreeNode root) {
+        if(root==null) return null;
+
+        TreeNode left=null,right=null;
+
+        if(root.left!=null)
+            left=root.left;
+
+        if(root.right!=null)
+            right=root.right;
+        root.right=left;
+        root.left=right;
+
+        if(root.left!=null)
+            invertTree(root.left);
+
+        if(root.right!=null)
+            invertTree(root.right);
+
+        return root;
+    }
+}
