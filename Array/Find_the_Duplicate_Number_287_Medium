@@ -1,0 +1,51 @@
+public class Find_the_Duplicate_Number_287_Medium {
+    /*
+       Find the Start of the circle
+
+
+     */
+    public int findDuplicate(int[] nums) {
+        if(nums.length<=1) return -1;
+        int slow=nums[0];
+        int fast=nums[nums[0]];
+        while(slow!=fast)
+        {
+            slow=nums[slow];
+            fast=nums[nums[fast]];
+        }
+        //First time meet
+        fast=0;
+        while(fast!=slow)
+        {
+            fast=nums[fast];
+            slow=nums[slow];
+        }
+        //Second time meet at the start of the circle
+        return slow;
+    }
+
+    /*
+    public int findDuplicate(int[] nums) {
+        int arr[]= new int[nums.length];
+        // int count=1;
+    for(int i:nums)
+    {
+        if(arr[i]==0)//the element never meet before
+        {
+            arr[i]++;
+        }
+
+        else{
+            arr[i]++;
+            if(arr[i]>1)//Return when it saw the element had seen before
+            {
+               return i;
+            }
+        }
+
+
+    }
+       return -1;
+    }
+     */
+}
