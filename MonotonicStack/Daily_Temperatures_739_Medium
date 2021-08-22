@@ -1,0 +1,36 @@
+public class Daily_Temperatures_739_Medium {
+    /*
+    Monotonic Stack
+     */
+    public int[] dailyTemperatures(int[] temperatures) {
+        Stack<Integer> monotonicStack=new Stack<>();
+        int n=temperatures.length;
+        int res[]=new int[n];
+
+        res[n-1]=0;//Since the last day doesn't have the next day
+        monotonicStack.add(n-1);
+
+        for(int i=n-2;i>=0;--i)
+        {
+            if(temperatures[i]<temperatures[monotonicStack.peek()])
+            {
+                res[i]=monotonicStack.peek()-i;
+                monotonicStack.push(i);
+            }
+            else
+            {
+                while(!monotonicStack.isEmpty()&&temperatures[i]>=temperatures[monotonicStack.peek()])//Pop all the elements which are smaller than the current one
+                {
+                    monotonicStack.pop();
+                }
+                if(!monotonicStack.isEmpty())//Found an element which is bigger than the current one
+                {
+                    res[i]=monotonicStack.peek()-i;
+                }
+                else res[i]=0;//No Such element
+                monotonicStack.push(i);
+            }
+        }
+        return res;
+    }
+}
