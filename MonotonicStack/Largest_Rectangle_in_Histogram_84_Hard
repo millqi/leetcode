@@ -1,5 +1,8 @@
 public class Largest_Rectangle_in_Histogram_84_Hard {
     public int largestRectangleArea(int[] heights) {
+        //将单调栈从小到大排列，大的在栈顶，当遇到比栈顶更小的元素时暂停并开始计算前面的局部最大值，由高到低开始计算
+        //[2,1,5,6,2,3]
+        //[1 5 6]  6*1 5*2 1*3 取最大值，因为在6后面时才开始计算，所以结束循环时要为栈中剩下元素再进行一轮计算
         int n=heights.length,max=0;
         Stack<Integer> monotonicStack=new Stack<>();
         for(int i=0;i<n;++i)
