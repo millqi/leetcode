@@ -1,0 +1,19 @@
+public class Largest_Rectangle_in_Histogram_84_Hard {
+    public int largestRectangleArea(int[] heights) {
+        int n=heights.length,max=0;
+        Stack<Integer> monotonicStack=new Stack<>();
+        for(int i=0;i<n;++i)
+        {
+            while(!monotonicStack.isEmpty()&&heights[i]<heights[monotonicStack.peek()])
+            {
+                max=Math.max(max,heights[monotonicStack.pop()]*(i  -   (monotonicStack.isEmpty()?0:(monotonicStack.peek()+ 1)) ));
+            }
+            monotonicStack.push(i);
+        }
+        while(!monotonicStack.isEmpty())
+        {
+            max=Math.max(max,heights[monotonicStack.pop()]*(n- (monotonicStack.isEmpty()?  0  :  (monotonicStack.peek()+1)  )  ));
+        }
+        return max;
+    }
+}
