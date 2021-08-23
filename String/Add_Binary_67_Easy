@@ -1,0 +1,64 @@
+public class Add_Binary_67_Easy {
+    /*
+    1ms
+     */
+    public String addBinary(String a, String b) {
+        int p1 = a.length() - 1, p2 = b.length() - 1, carry = 0;
+        StringBuilder sb = new StringBuilder();
+        while (p1 >= 0 || p2 >= 0) {
+            int sum = carry;
+            if (p1 >= 0) sum += a.charAt(p1--) - '0';
+            if (p2 >= 0) sum += b.charAt(p2--) - '0';
+            carry = sum / 2;
+            sb.append(sum % 2);
+        }
+        if (carry != 0) {
+            sb.append(carry);
+        }
+        return sb.reverse().toString();
+    }
+    /*
+    2ms from the top to the bottom
+     */
+    public String addBinary2(String a, String b){
+        StringBuilder sb=new StringBuilder();
+        int i=a.length()-1,j=b.length()-1;
+        int carry=0;
+        while(i>=0||j>=0)
+        {
+            int ai=0,bi=0;
+            if(i>=0)
+            {
+                ai=a.charAt(i)-'0';
+                --i;
+            }
+            if(j>=0)
+            {
+                bi=b.charAt(j)-'0';
+                --j;
+            }
+            int sum=ai+bi+carry;
+            if(sum==0)
+            {
+                sb.insert(0,"0");
+                carry=0;
+            }
+            else if(sum==1) {
+                sb.insert(0, "1");
+                carry=0;
+            }
+            else if(sum==2)
+            {
+                sb.insert(0,"0");
+                carry=1;
+            }
+            else if(sum==3)
+            {
+                sb.insert(0, "1");
+                carry=1;
+            }
+        }
+        if(carry==1) sb.insert(0,"1");
+        return sb.toString();
+    }
+}
