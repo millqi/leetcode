@@ -1,0 +1,47 @@
+public class Palindrome_Number_9_Easy {
+    /*
+    We can divide x and construct reverse x at the same time to improve the time Consumption
+     */
+    public boolean isPalindrome(int x) {
+        if(x<0 || (x!=0 && x%10==0))
+            return false;
+
+        int rev=0;
+
+        while(x>rev){
+            rev=rev*10+x%10;
+            x=x/10;
+        }
+        return (x==rev || x==(rev/10));
+    }
+    /*
+    Stack
+     */
+    public boolean isPalindrome2(int x) {
+        if(x==0)return true;
+        if(x<0||x%10==0) return false;//negative or end with 0( 10 --  1)
+        Stack<Integer> stack=new Stack<>();
+        int temp=x;//123
+        while(temp/10!=0)//temp==101
+        {
+            stack.add(temp%10);
+            temp/=10;
+        }
+        stack.push(temp);
+        //stack
+        //1
+        //2
+        //3
+        int times=1;
+        temp=0;
+        while(!stack.isEmpty())
+        {
+            temp+=(times*stack.pop());
+            times*=10;
+        }
+
+
+        if(x==temp) return true;
+        else return false;
+    }
+}
