@@ -1,0 +1,63 @@
+public class Time_Based_Key_Value_Store_981_Medium {
+    /*
+    Hashmap
+     */
+    class TimeMap {
+        private Map<String, Map<Integer, String>> map;
+        /** Initialize your data structure here. */
+        public TimeMap() {
+            map = new HashMap<>();
+        }
+
+        public void set(String key, String value, int timestamp) {
+            Map<Integer, String> _map = map.getOrDefault(key, new HashMap<>());
+            _map.put(timestamp, value);
+            map.put(key, _map);
+        }
+
+        public String get(String key, int timestamp) {
+            if (!map.containsKey(key)) {
+                return "";
+            }
+
+            Map<Integer, String> _map = map.get(key);
+
+            for(int i = timestamp; i > 0; i--) {
+                if (_map.containsKey(i)) {
+                    return _map.get(i);
+                }
+            }
+
+            return "";
+        }
+    }
+    /*
+    TreeMap
+     */
+    class TimeMap2 {
+        Map<String, TreeMap<Integer,String >> map;
+        /** Initialize your data structure here. */
+        public TimeMap2() {
+            map=new HashMap<>();
+        }
+
+        public void set(String key, String value, int timestamp) {
+            if(!map.containsKey(key))
+            {
+                map.put(key,new TreeMap<>());
+            }
+            map.get(key).put(timestamp,value);
+        }
+
+        public String get(String key, int timestamp) {
+            TreeMap<Integer,String > treeMap=map.get(key);
+            if(treeMap==null)
+                return "";
+            Integer floor=treeMap.floorKey(timestamp);
+            if(floor==null)
+                return "";
+            return treeMap.get(floor);
+
+        }
+    }
+}
