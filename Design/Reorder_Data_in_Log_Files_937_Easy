@@ -1,0 +1,35 @@
+public class Reorder_Data_in_Log_Files_937_Easy {
+    public String[] reorderLogFiles(String[] logs) {
+        Comparator<String > sc=new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                int s1SpaceIndex=s1.indexOf(' ');
+                int s2SpaceIndex=s2.indexOf(' ');
+                char s1FirstChar=s1.charAt(s1SpaceIndex+1);
+                char s2FirstChar=s2.charAt(s2SpaceIndex+1);
+
+                if(s1FirstChar<='9')//ASCII numbers before the alphabet
+                {//if s1 is number
+                    if(s2FirstChar<='9')
+                        return 0;//if s1 s2 are numbers
+                    else return 1;//if s2 is alphabet,"s1 s2"switch to "s2 s1" position
+                }
+
+                if(s2FirstChar<='9')//if s1 is alphabet
+                {
+                    return -1;//s1 is alphabet.s2 is digit." letter-logs come before all digit-logs" so switch it
+                }
+
+                //If s1 s2 are alphabet
+                int preCompute= s1.substring(s1SpaceIndex+1).compareTo(s2.substring(s2SpaceIndex+1));
+                if(preCompute==0) return s1.substring(0,s1SpaceIndex).compareTo(s2.substring(0,s2SpaceIndex));//s1==s2 compare the prefix
+                return preCompute;//Return the build-in compare result
+
+
+            }
+
+        };
+        Arrays.sort(logs,sc);
+        return logs;
+    }
+}
