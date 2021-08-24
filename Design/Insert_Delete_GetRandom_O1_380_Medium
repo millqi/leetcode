@@ -1,0 +1,49 @@
+public class Insert_Delete_GetRandom_O1_380_Medium {
+    class RandomizedSet {
+        ArrayList<Integer> nums;
+        HashMap<Integer, Integer> index;
+        Random rand=new Random();
+        /** Initialize your data structure here. */
+        public RandomizedSet() {
+            nums=new ArrayList<>();
+            index=new HashMap<>();
+        }
+
+        /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+        public boolean insert(int val) {
+            if (index.containsKey(val))
+                return false;
+            index.put(val,nums.size());
+            nums.add(val);
+            return true;
+        }
+
+        /** Removes a value from the set. Returns true if the set contained the specified element. */
+        public boolean remove(int val) {
+            if(!index.containsKey(val))
+                return false;
+            else {
+                int location=index.get(val);
+
+                int lastone=nums.get(nums.size()-1);
+                nums.set(location,lastone);
+                index.put(lastone,location);
+
+                /*
+                Remove cost O(n)
+                Replace the val with the last element to "delete" the val
+                 */
+                index.remove(val);
+                nums.remove(nums.size()-1);
+
+                return true;
+            }
+        }
+
+        /** Get a random element from the set. */
+        public int getRandom() {
+            int index = rand.nextInt(nums.size());
+            return nums.get(index);
+        }
+    }
+}
