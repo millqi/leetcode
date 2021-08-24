@@ -1,0 +1,21 @@
+public class String_Compression_443_Medium {
+    public int compress(char[] chars) {
+        int frt=0,end=0;
+        while(end<chars.length)
+        {
+            char c=chars[end];
+            int count=0;
+            while(end<chars.length&&chars[end]==c)
+            {
+                ++end;++count;
+            }
+            chars[frt++]=c;
+            if(count>1)
+            {
+                for(char num:Integer.toString(count).toCharArray())
+                    chars[frt++]=num;
+            }
+        }
+        return frt;
+    }
+}
