@@ -1,0 +1,13 @@
+public class Remove_All_Adjacent_Duplicates_In_String_1047_Easy {
+    public String removeDuplicates(String s) {
+        int newIndex=0,n=s.length();
+        char[] c=s.toCharArray();
+        for(int i=0;i<s.length();++i,++newIndex)
+        {
+            c[newIndex]=c[i];
+            if(newIndex>0&&c[newIndex]==c[newIndex-1])
+                newIndex-=2;
+        }
+        return new String(c,0,newIndex);
+    }
+}
