@@ -1,0 +1,38 @@
+public class Logger_Rate_Limiter_359_Easy {
+    /*
+    Thread Safe
+     */
+    /*
+    ConcurrentHashMap only guarantees that when you put, all get method from all threads will read the same value from main memory.
+However, situation here is slightly different. You Get first, make condition check, then put.
+ConcurrentHashMap can not guarantee these three steps executed in sequence without other threads' interruption.
+in other word, without synchronized, there will be a chance some thread make condition check before you Put be executed.
+That will end up two thread log same msg which is not acceptable.
+     */
+    class Logger {
+        private final HashMap<String, Integer> msgMap;
+        private final Object lock;
+
+        /** Initialize your data structure here. */
+        public Logger() {
+            msgMap = new HashMap<String, Integer>();
+            lock = new Object();
+        }
+        public boolean shouldPrintMessage(int timestamp, String message) {
+            Integer ts=msgMap.get(message);
+            //using double checked lock to avoid unnecessary locking.
+            if(ts==null||timestamp-ts>=10)
+            {
+                synchronized (lock){
+                    Integer ts2=msgMap.get(message);
+                    if(ts==null||timestamp-ts2>=10) {
+                        msgMap.put(message, timestamp);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+    }
+}
