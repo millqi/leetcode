@@ -1,0 +1,36 @@
+public class Subdomain_Visit_Count_811_Medium {
+    public List<String> subdomainVisits(String[] cpdomains) {
+        HashMap<String,Integer> map=new HashMap<>();
+        for(int i=0;i<cpdomains.length;++i)
+        {
+            String s=cpdomains[i];
+            int frt=0,end=0;
+            while(end<s.length()&&Character.isDigit(s.charAt(end)))
+            {
+                ++end;
+            }
+            int times=Integer.parseInt(s.substring(frt,end));
+            frt=end+1;
+            end=s.length();
+
+            map.put(s.substring(frt,end),map.getOrDefault(s.substring(frt,end),0)+times);
+            while(frt<s.length())
+            {
+                if(s.charAt(frt)=='.')
+                {
+                    map.put(s.substring(frt+1,end),map.getOrDefault(s.substring(frt+1,end),0)+times);
+                }
+                ++frt;
+            }
+        }
+        List<String> res=new ArrayList<>();
+        for(String s:map.keySet())
+        {
+            int times=map.get(s);
+            StringBuilder sb=new StringBuilder();
+            sb.append(times+" "+s);
+            res.add(sb.toString());
+        }
+        return res;
+    }
+}
