@@ -1,0 +1,30 @@
+public class Add_Strings_415_Easy {
+    public String addStrings(String num1, String num2) {
+        int i=num1.length()-1,j=num2.length()-1;
+        int carry=0;
+        StringBuilder res=new StringBuilder();
+        while(i>=0||j>=0)
+        {
+            char c1='0';
+            char c2='0';
+            if(i>=0)
+                c1=num1.charAt(i--);
+            if(j>=0)
+                c2=num2.charAt(j--);
+            int sum=c1-'0'+c2-'0'+carry;
+            if(sum<=9)
+            {
+                res.insert(0,sum);
+                carry=0;
+            }
+            else {
+                carry=1;
+                sum-=10;
+                res.insert(0,sum);
+            }
+        }
+        if(carry==1)
+            res.insert(0,1);
+        return res.toString();
+    }
+}
