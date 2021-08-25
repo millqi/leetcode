@@ -1,0 +1,16 @@
+public class Kth_Missing_Positive_Number_1539_Easy {
+    public int findKthPositive(int[] arr, int k) {
+        int i=0,n=arr.length,pointer=1,missingCount=0;
+        while(i<n)
+        {
+            if(arr[i]==pointer)
+            {
+                ++i;
+            }
+            else ++missingCount;
+            if(missingCount==k) return pointer;
+            ++pointer;
+        }
+        return pointer+k-missingCount-1;//missingCount<k
+    }
+}
