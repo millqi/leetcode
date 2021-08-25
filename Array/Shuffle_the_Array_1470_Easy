@@ -1,0 +1,12 @@
+public class Shuffle_the_Array_1470_Easy {
+    public int[] shuffle(int[] nums, int n) {
+        for (int i = 0; i < n; ++i) {
+            nums[i + n] |= (nums[i] << 10);
+        }//0<=num[i]<=1000 1000最多占用10位 左移10位后将新数字添加进去
+        for (int i = 0; i < n; ++i) {
+            nums[i * 2] = (nums[i + n] & 0xFFC00) >> 10;     // 11111111110000000000 == 0xFFC00
+            nums[i * 2 + 1] = nums[i + n] & 0x003FF;        // 00000000001111111111 == 0x003FF
+        }
+        return nums;
+    }
+}
