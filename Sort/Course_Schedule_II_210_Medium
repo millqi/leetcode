@@ -1,0 +1,89 @@
+public class Course_Schedule_II_210_Medium {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        ArrayList<Integer>[]graph = new ArrayList[numCourses];
+        int[]indegree = new int[graph.length];
+        for(int i = 0 ; i < numCourses ; i++){
+            graph[i] = new ArrayList<>();
+        }
+        for(int i = 0 ; i < prerequisites.length ; i++){
+
+            int[]edge = prerequisites[i];
+
+            int v1 = edge[0];
+            int v2 = edge[1];
+
+            graph[v1].add(v2);
+            indegree[v2]++;
+        }
+        List<Integer>arr =  Kahns(graph , indegree);
+        if(arr.size() != numCourses){
+            return new int[0];
+        }
+        int[]ans = new int[arr.size()];
+        for(int i = ans.length - 1 ; i >= 0 ; i--){
+            ans[i] = arr.get(arr.size() - i - 1);
+        }
+        return ans;
+    }
+    public static List<Integer> Kahns(ArrayList<Integer>[]graph , int[]indegree){
+        List<Integer> ans = new ArrayList<>();
+        Queue<Integer>q = new ArrayDeque<>();
+        for(int i = 0 ; i < indegree.length ; i++){
+            if(indegree[i] == 0){
+                q.offer(i);
+            }
+        }
+        while(q.size() > 0){
+            int P = q.poll();
+            ans.add(P);
+            for(int nbr : graph[P]){
+                indegree[nbr]--;
+                if(indegree[nbr] == 0){
+
+                    q.offer(nbr);
+                }
+            }
+        }
+        return ans;
+    }
+    /*
+    BFS
+     */
+    public int[] findOrder2(int numCourses, int[][] prerequisites) {
+        int order[]=new int[numCourses];
+        int inDegree[]=new int[numCourses];
+        int index=0;
+        for(int i=0;i<prerequisites.length;++i)
+        {
+            ++inDegree[prerequisites[i][0]];
+        }
+
+        Queue<Integer> queue=new LinkedList<>();
+        for(int i=0;i<numCourses;++i)
+        {
+            if(inDegree[i]==0)
+            {
+                order[index++]=i;//把所有没入度的课程上了(即为没前置要求的课程)
+                queue.offer(i);
+            }
+        }
+
+        while (!queue.isEmpty())
+        {
+            int preCourse=queue.poll();
+            for(int i=0;i< prerequisites.length;++i)
+            {
+                if(prerequisites[i][1]==preCourse)//前置课程为preCourse
+                {
+                    inDegree[prerequisites[i][0]]--;//减少第i节课的一节前置课要求
+                    if(inDegree[prerequisites[i][0]]==0)//若第i节课上完了前置课程
+                    {
+                        order[index++]=prerequisites[i][0];
+                        queue.offer(prerequisites[i][0]);
+                    }
+                }
+            }
+        }
+        return index==numCourses ? order: new int[0];
+    }
+}
