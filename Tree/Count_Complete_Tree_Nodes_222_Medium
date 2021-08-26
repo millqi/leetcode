@@ -1,0 +1,25 @@
+public class Count_Complete_Tree_Nodes_222_Medium {
+    public int height(TreeNode root) {
+        return root == null ? -1 : 1 + height(root.left);
+    }
+    public int countNodes(TreeNode root) {
+        int height=height(root);
+        int node=0;
+        //若右子树高度为当前树h-1，意味着右子树不是满节点，左子树是满节点，node加上2^h个节点代表加上左子树
+        //若右子树高度为h-2，意味着右子树满节点，左子树缺失节点，node加上右子树的全部节点，root去left寻找缺失节点位置
+        while(root!=null)
+        {
+            if(height(root.right)==height-1)
+            {
+                node+=1<<height;
+                root=root.right;
+            }
+            else {
+                node+= 1<<height-1;
+                root=root.left;
+            }
+            height--;
+        }
+        return node;
+    }
+}
