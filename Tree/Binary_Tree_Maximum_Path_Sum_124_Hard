@@ -1,0 +1,39 @@
+public class Binary_Tree_Maximum_Path_Sum_124_Hard {
+    int maxValue;
+    public int maxPathSum(TreeNode root) {
+        maxValue=Integer.MIN_VALUE;
+        maxPathDown(root);
+        return maxValue;
+    }
+    private int maxPathDown(TreeNode node) {
+        if(node==null) return 0;
+        int left=Math.max(0,maxPathDown(node.left));
+        int right=Math.max(0,maxPathDown(node.right));
+        maxValue=Math.max(maxValue, node.val+left+right);
+        return Math.max(left,right)+node.val;
+    }
+
+    /* Wrong
+    public int count(TreeNode root) {
+        int left=-1001;
+        int right=-1001;
+        if(root.left!=null)
+        {
+            left=maxPathSum(root.left);
+        }
+        if(root.right!=null)
+        {
+            right=maxPathSum(root.right);
+        }
+
+        //6ways left right root left-root right-root left-root-right
+        //wrong May calculate a departed subsequence
+        int m=Math.max(left,right);
+        m=Math.max(m,root.val);
+        m=Math.max(m, root.val+left);
+        m=Math.max(m, root.val+right);
+        m=Math.max(m, root.val+left+right);
+        return m;
+    }*/
+
+}
