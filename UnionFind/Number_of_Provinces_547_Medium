@@ -1,0 +1,42 @@
+public class Number_of_Provinces_547_Medium {
+    /*
+    Union Find
+     */
+    int uf[];
+    public int findCircleNum(int[][] isConnected) {
+        int m=isConnected.length,n=isConnected[0].length;
+        uf=new int[m];
+        for(int i=0;i<m;++i)
+        {
+            uf[i]=i;
+        }
+        for(int i=0;i<m;++i)
+        {
+            for(int j=0;j<n;++j)
+            {
+                if(isConnected[i][j]==1) union(j,i);
+            }
+        }
+        Set<Integer> set=new HashSet<>();
+        for(int i=0;i<uf.length;++i)
+        {
+            set.add(find(uf[i]));
+        }
+        return set.size();
+    }
+    public void union(int i,int j)
+    {
+        int root1=find(i);
+        int root2=find(j);
+        uf[root1]=uf[root2];
+    }
+    public int find(int i)
+    {
+        while(i!=uf[i])
+        {
+            uf[i]=uf[uf[i]];
+            i=uf[i];
+        }
+        return i;
+    }
+}
