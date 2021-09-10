@@ -1,0 +1,31 @@
+public class Unique_Binary_Search_Trees_II_95_Medium {
+    public List<TreeNode> generateTrees(int n) {
+        return generateTrees(1,n);
+
+    }
+    public List<TreeNode> generateTrees(int start,int end) {
+        List<TreeNode> res=new ArrayList<>();
+        if(start>end)
+        {
+            res.add(null);
+            return res;
+        }
+        List<TreeNode> left,right;
+        for(int i=start;i<=end;++i)
+        {
+            left=generateTrees(start,i-1);
+            right=generateTrees(i+1,end);
+            for(TreeNode l:left)
+            {
+                for(TreeNode r:right)
+                {
+                    TreeNode root=new TreeNode(i);
+                    root.left=l;
+                    root.right=r;
+                    res.add(root);
+                }
+            }
+        }
+        return res;
+    }
+}
