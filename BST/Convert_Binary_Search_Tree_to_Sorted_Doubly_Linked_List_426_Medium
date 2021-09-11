@@ -1,0 +1,66 @@
+public class Convert_Binary_Search_Tree_to_Sorted_Doubly_Linked_List_426_Medium {
+    //Morris
+    public Node treeToDoublyList(Node root) {
+        if(root==null) return null;
+        Node head=new Node();
+
+        Node prev=head;
+        Node cur=root;
+        while(cur!=null)
+        {
+            if(cur.left==null)
+            {
+                //Connect
+                cur.left=prev;
+                prev.right=cur;
+                //move
+                prev=cur;
+                cur=cur.right;
+            }
+            else {
+                Node rightmost=cur.left;
+                while(rightmost.right!=null&&rightmost.right!=cur)
+                    rightmost=rightmost.right;
+
+                if(rightmost.right==null)
+                {
+                    rightmost.right=cur;
+                    Node temp=cur;
+                    cur=cur.left;
+                    temp.left=null;
+                }
+            }
+        }
+        //prev is the last node
+        prev.right=head.right;
+        head.right.left=prev;
+        head=head.right;
+
+        return head;
+    }
+    //Divide and Conquer Use More Space
+    public Node treeToDoublyList2(Node root)
+    {
+        if (root==null)
+            return null;
+        Node leftHead=treeToDoublyList2(root.left);
+        Node rightHead=treeToDoublyList2(root.right);
+        root.left=root;
+        root.right=root;
+        return connect(connect(leftHead,root),rightHead);
+    }
+    public Node connect(Node n1,Node n2)
+    {
+        if(n1==null)
+            return n2;
+        if(n2==null)
+            return n1;
+        Node tail1=n1.left;//2
+        Node tail2=n2.left;//3
+        tail1.right=n2;
+        n2.left=tail1;
+        tail2.right=n1;
+        n1.left=tail2;
+        return n1;
+    }
+}
