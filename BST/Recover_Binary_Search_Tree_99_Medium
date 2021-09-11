@@ -1,0 +1,52 @@
+public class Recover_Binary_Search_Tree_99_Medium {
+    TreeNode prev=null, first=null, second=null;
+    public void inorderTraverse(TreeNode root){
+        if (root == null) return;
+        inorderTraverse(root.left);
+        if ((prev != null) && (root.val < prev.val)){
+            if (first == null) first = prev;
+            second = root;
+        }
+        prev = root;
+        inorderTraverse(root.right);
+    }
+    public void recoverTree(TreeNode root) {
+        inorderTraverse(root);
+        if (first != null){
+            int temp = first.val;
+            first.val = second.val;
+            second.val = temp;
+        }
+        return;
+
+
+
+
+    }
+    /*
+    9ms
+     */
+    /*TreeNode first=null;
+    TreeNode second=null;
+    TreeNode prev=new TreeNode(Integer.MIN_VALUE);*/
+    public void recoverTree2(TreeNode root) {
+        find(root);
+        int temp= first.val;
+        first.val=second.val;
+        second.val=temp;
+    }
+    public void find(TreeNode root)
+    {
+        if(root==null) return;
+
+        find(root.left);
+        if(first==null&&root.val<= prev.val)
+            first=prev;
+
+        if(first!=null&&root.val<=prev.val)
+            second=prev;
+        prev=root;
+
+        find(root.right);
+    }
+}
