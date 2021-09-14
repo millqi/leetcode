@@ -1,0 +1,20 @@
+public class Convert_Sorted_List_to_Binary_Search_Tree_109_Medium {
+    public TreeNode sortedListToBST(ListNode head) {
+        if(head==null) return null;
+        return build(head,null);
+    }
+    public TreeNode build(ListNode head,ListNode tail)
+    {
+        ListNode slow=head,fast=head;
+        if(head==tail) return null;
+        while(fast.next!=tail&&fast.next.next!=tail)
+        {
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        TreeNode root=new TreeNode(slow.val);
+        root.left=build(head,slow);
+        root.right=build(slow.next,tail);
+        return root;
+    }
+}
