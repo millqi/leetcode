@@ -1,0 +1,36 @@
+public class Kth_Smallest_Element_in_a_BST_230_Medium {
+    public int kthSmallest(TreeNode root, int k) {
+        int count=k;
+        TreeNode prev=null,cur=root;
+        while(cur!=null)
+        {
+            int val= cur.val;
+            if(cur.left==null)
+            {
+                //val= cur.val;
+                cur=cur.right;
+                --count;
+            }
+            else {
+                prev=cur.left;
+                while(prev.right!=null&&prev.right!=cur)
+                {
+                    prev=prev.right;
+                }
+                if(prev.right==null)
+                {
+                    prev.right=cur;
+                    cur=cur.left;
+                }
+                else {
+                    --count;
+                    prev.right=null;
+                    cur= cur.right;
+                }
+            }
+            if(count==0)
+                return val;
+        }
+        return -1;
+    }
+}
