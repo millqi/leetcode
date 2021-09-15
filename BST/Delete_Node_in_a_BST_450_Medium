@@ -1,0 +1,41 @@
+public class Delete_Node_in_a_BST_450_Medium {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        TreeNode target=root;
+        TreeNode prev=null;
+        while(target!=null&&target.val!=key)
+        {
+            prev=target;
+            if(key> target.val)
+            {
+                target=target.right;
+            }
+            else if(key<target.val) target=target.left;
+        }
+        if(target==null) return root;//Not Found
+
+        if(prev==null) return deleteRootNode(target);
+        else if(prev.left==target) prev.left= deleteRootNode(target);
+        else prev.right=deleteRootNode(target);
+
+        return root;
+    }
+    private TreeNode deleteRootNode(TreeNode root) {
+        if(root==null) return null;
+        if(root.left==null) return root.right;
+        if(root.right==null) return root.left;
+        TreeNode next=root.right;
+        TreeNode prev=null;
+        while(next.left!=null)
+        {
+            prev=next;
+            next=next.left;
+        }
+        next.left=root.left;
+        if(root.right!=next)
+        {
+            prev.left=next.right;
+            next.right=root.right;
+        }
+        return next;
+    }
+}
