@@ -1,0 +1,25 @@
+public class Increasing_Order_Search_Tree_897_Easy {
+    public TreeNode increasingBST(TreeNode root) {
+        TreeNode grand = new TreeNode(0);
+        grand.right = root;
+        makeVine(grand);
+        return grand.right;
+    }
+    void makeVine(TreeNode grand) {
+        TreeNode n = grand.right;
+        while (n != null) {
+            if (n.left != null) {
+                TreeNode old_n = n;
+                n = n.left;
+                old_n.left = n.right;
+                n.right = old_n;
+                grand.right = n;
+            }
+            else {
+                grand = n;
+                n = n.right;
+            }
+        }
+        return ;
+    }
+}
