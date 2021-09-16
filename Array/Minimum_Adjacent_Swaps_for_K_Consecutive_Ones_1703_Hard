@@ -1,0 +1,73 @@
+public class Minimum_Adjacent_Swaps_for_K_Consecutive_Ones_1703_Hard {
+    public int minMoves(int[] nums, int k) {
+        if(k == 1) return 0;
+
+        int n = nums.length;
+        int m = 0;
+        int[] one_pos = new int[n];
+        for(int i = 0; i < n; i++) {
+            if(nums[i] == 1) {
+                one_pos[m++] = i;
+            }
+        }
+
+        int[] pre_sum = new int[m];
+        for(int i = 0; i < m; i++) {
+            if(i == 0) {
+                pre_sum[i] = one_pos[i];
+            } else {
+                pre_sum[i] = pre_sum[i - 1] + one_pos[i];
+            }
+        }
+
+        int minOp = Integer.MAX_VALUE;
+        /*
+        2 1 0 1 2 Radius=2   SumRadius=(1+2)*2=(Radius+1)/2
+        1 2 3 4 5 (3-1)+(3-2)+(4-3)+(5-3)=5+4-(1+2)=right-left
+         */
+        for(int i = 0; i <= m - k; i++) {
+            int left = i;
+            int right = left + k - 1;
+            int mid = (left + right) / 2;
+            int radius = mid - left;
+            int op = 0;
+            int r = pre_sum[right] - pre_sum[mid];
+            int l = mid == left ? 0 : (pre_sum[mid - 1] - (left == 0 ? 0 : pre_sum[left - 1]));
+            if(k % 2 == 0) {
+                op = r - l - one_pos[mid] - radius * (radius + 1) - (radius + 1);
+            } else {
+                op = r - l - radius * (radius + 1);
+            }
+            minOp = Math.min(minOp, op);
+        }
+        return minOp;
+    }
+    //47 ms
+    public int minMoves2(int[] nums, int k) {
+        ArrayList<Integer> indices=new ArrayList<>();
+        for(int i=0;i<nums.length;++i)
+            if(nums[i]==1) indices.add(i);
+
+
+        int ones=indices.size();
+        ArrayList<Integer> preSum=new ArrayList<>();
+        preSum.add(indices.get(0));
+        for(int i=1;i<ones;++i)
+        {
+            preSum.add(preSum.get(i-1)+indices.get(i));
+        }
+
+        int res=0x7fffffff;
+
+        for(int mid=(k-1)/2;mid<ones-k/2;++mid)
+        {
+            int radius=(k-1)/2;
+            int right= k%2==0? preSum.get(mid+radius+1) - preSum.get(mid) - indices.get(mid) ://even
+                                preSum.get(mid+radius) - preSum.get(mid);//odd
+            int left= (mid==0? 0 : preSum.get(mid-1)) - (mid-radius==0? 0 : preSum.get(mid-radius-1));//when k==2
+            int save= (radius+1)*radius+(k%2==0? radius+1:0);
+            res=Math.min(res,right-left-save);
+        }
+        return res;
+    }
+}
