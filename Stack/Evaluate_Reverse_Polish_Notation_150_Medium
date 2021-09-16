@@ -1,0 +1,28 @@
+public class Evaluate_Reverse_Polish_Notation_150_Medium {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack();
+        for (String t : tokens) {
+            if (t.equals("+")) {
+                stack.push(stack.pop() + stack.pop());
+            }
+            else if (t.equals("-")) {
+                int b = stack.pop();
+                int a = stack.pop();
+                stack.push(a - b);
+                //stack.push(-stack.pop() + stack.pop());   //also works
+            }
+            else if (t.equals("*")) {
+                stack.push(stack.pop() * stack.pop());
+            }
+            else if (t.equals("/")) {
+                int b = stack.pop();
+                int a = stack.pop();
+                stack.push(a / b);
+            }
+            else {
+                stack.push(Integer.valueOf(t));
+            }
+        }
+        return stack.pop();
+    }
+}
