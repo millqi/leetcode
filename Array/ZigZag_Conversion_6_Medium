@@ -1,0 +1,33 @@
+public class ZigZag_Conversion_6_Medium {
+/*n=numRows
+Δ=2n-2    1                           2n-1                         4n-3
+Δ=        2                     2n-2  2n                    4n-4   4n-2
+Δ=        3               2n-3        2n+1              4n-5       .
+Δ=        .           .               .               .            .
+Δ=        .       n+2                 .           3n               .
+Δ=        n-1 n+1                     3n-3    3n-1                 5n-5
+Δ=2n-2    n                           3n-2                         5n-4
+*/
+    public String convert(String s, int numRows) {
+        if(numRows == 1)    return s;
+        StringBuilder b = new StringBuilder();
+        int interval = 2 * numRows - 2;
+        int n = s.length();
+        /*
+        1 对应 2n-1  2对应2n-2
+         */
+        for(int i = 0; i < numRows; i++){
+            int j = i;
+            while(j < n){
+                if(interval != 0)//防止最后一行重复
+                    b.append(s.charAt(j));//正序第一个
+                j += interval;
+                if(i != 0 && j < n)//防止第一行重复
+                    b.append(s.charAt(j));//倒序第一个
+                j += 2 * i;//补回interval减掉的步数
+            }
+              interval -= 2;
+        }
+        return b.toString();
+    }
+}
