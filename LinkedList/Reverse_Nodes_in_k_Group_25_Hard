@@ -1,0 +1,41 @@
+public class Reverse_Nodes_in_k_Group_25_Hard {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        int length=1;
+        ListNode dummy=head;
+        while(dummy.next!=null)
+        {
+            dummy=dummy.next;
+            ++length;
+        }
+
+        dummy=new ListNode(0);
+        dummy.next=head;
+
+        ListNode prev=dummy,tail=head;
+        while(length>=k)
+        {
+            length-=k;
+            int count=1;
+            /*
+            k=3
+            (prev)-1-2-3-4-5
+            tail=1
+            1----- next=3
+            2----- 2.next->3 ---> 2.next->1
+            3----- prev.next->1 ---> prev.next->2
+            4----- tail.next->2 ---> tail.next->3
+             */
+            while(count<k)
+            {
+                ++count;
+                ListNode next=tail.next.next;
+                tail.next.next=prev.next;
+                prev.next=tail.next;
+                tail.next=next;
+            }
+            prev=tail;
+            tail=tail.next;
+        }
+        return dummy.next;
+    }
+}
