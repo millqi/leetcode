@@ -1,0 +1,25 @@
+public class Remove_Nth_Node_From_End_of_List_19_Medium {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head==null||head.next==null) return null;
+        ListNode tail=head,target=head,prev=head;
+        int count=1;
+        for(int i=0;i<n-1;++i)
+        {
+            tail=tail.next;
+            ++count;
+        }
+        while (tail.next!=null)
+        {
+            prev=target;
+            tail=tail.next;
+            target=target.next;
+            ++count;
+        }
+        if(count==n)
+        {
+            return head.next;
+        }
+        prev.next=prev.next.next;
+        return head;
+    }
+}
