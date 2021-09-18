@@ -1,0 +1,72 @@
+public class Count_and_Say_38_Medium {
+    /*
+ 1.     1
+ 2.     11
+ 3.     21
+ 4.     1211
+ 5.     111221
+ 6.     312211
+ 7.     13112221
+ 8.     1113213211
+ 9.     31131211131221
+ 10.   13211311123113112211
+     */
+    //Recursion
+    public String countAndSay(int n) {
+        StringBuilder result = new StringBuilder();
+        if (n == 1) {
+            return "1";
+        }
+        String seq = countAndSay(n-1);
+        int startIndex = 0;
+        int count = 1;
+        for (int i = 1; i < seq.length(); i++) {
+            if (seq.charAt(startIndex) - '0'  == seq.charAt(i) - '0') {
+                count++;
+            } else {
+                result.append(count);
+                result.append(seq.charAt(startIndex));
+                startIndex = i;
+                count = 1;
+            }
+        }
+        result.append(count);
+        result.append(seq.charAt(startIndex));
+        return result.toString();
+    }
+    //6ms
+    public String countAndSay2(int n) {
+        if(n==1) return "1";
+        StringBuilder sb=new StringBuilder();
+        sb.append("1");
+        int count=1;
+        while(count<n)
+        {
+            String s=sb.toString();
+            sb.delete(0,sb.length());
+
+            int index=0;
+            char c=s.charAt(0);
+            int times=0;
+            while(index<s.length()){
+                if(c==s.charAt(index))
+                {
+                    ++times;
+                    ++index;
+                }else {
+                    sb.append(times);
+                    sb.append(c);
+                    if(index<s.length())
+                    {
+                        c=s.charAt(index);
+                        times=0;
+                    }
+                }
+            }
+            sb.append(times);
+            sb.append(c);
+            ++count;
+        }
+        return sb.toString();
+    }
+}
