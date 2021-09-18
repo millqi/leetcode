@@ -1,0 +1,78 @@
+public class Substring_with_Concatenation_of_All_Words_30_Hard {
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> res=new ArrayList<>();
+        if(s==null || s.length()<1 || words.length<1)
+            return res;
+        int len = words[0].length();
+        HashMap<String, Integer> h = new HashMap<>();
+        for(int i=0; i<words.length; i++)
+            h.put(words[i], h.getOrDefault(words[i], 0)+1);
+        String[] str = new String[s.length()];
+
+        for(int i=0; i<len; i++)
+        {
+            int begin = i;
+            int size = 0;
+            HashMap<String, Integer> curr = new HashMap<>();
+            for(int j=i; j<=s.length()-len; j=j+len)//sliding through length of s
+            {
+                str[j] = s.substring(j, j+len);
+                if(h.containsKey(str[j]))
+                {
+                    begin= (begin==-1)? j : begin;
+                    curr.put(str[j],curr.getOrDefault(str[j],0)+1);
+                    size++;
+                    if(size==words.length)
+                    {
+                        if (curr.equals(h))
+                        {
+                            res.add(begin);
+                        }
+                        curr.put(str[begin],curr.getOrDefault(str[begin],0)-1); //removing the first element from beginning
+                        size--;
+                        begin=begin+len;
+                    }
+                }
+                else
+                {
+                    begin = -1;
+                    curr.clear();
+                    size = 0;
+                }
+            }
+        }
+        return res;
+    }
+    //143ms Easy to UnderStand
+    public List<Integer> findSubstring2(String s, String[] words) {
+        int length=s.length();
+        int gap=words[0].length();
+        int n= words.length;
+        HashMap<String,Integer> map=new HashMap<>();
+        for(int i=0;i<words.length;++i)
+        {
+            map.put(words[i],map.getOrDefault(words[i],0)+1);
+        }
+        List<Integer> res=new ArrayList<>();
+
+        for(int i=0;i<length- n*gap+1;++i)
+        {
+            HashMap<String ,Integer> seen=new HashMap<>();
+            int j=0;
+            while(j<n)
+            {
+                String word=s.substring(i+j*gap,i+(j+1)*gap);
+                if(map.containsKey(word))
+                {
+                    seen.put(word,seen.getOrDefault(word,0)+1);
+                    if(seen.get(word)>map.get(word))
+                        break;
+                }
+                else break;
+                ++j;
+            }
+            if(j==n) res.add(i);
+        }
+        return res;
+    }
+}
